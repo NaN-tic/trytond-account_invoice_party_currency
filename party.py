@@ -53,4 +53,4 @@ class PurchaseRequest:
     def currency(self):
         if self.party and self.party.currency:
             return self.party.currency
-        return super(PurchaseRequest, self).currency()
+        return super(PurchaseRequest, self).currency
