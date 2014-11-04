@@ -211,8 +211,6 @@ Create purchase request and check purchase is created with party currency::
     >>> request.save()
     >>> create_purchase = Wizard('purchase.request.create_purchase',
     ...     models=[request])
-    >>> create_purchase.form.payment_term = payment_term
-    >>> create_purchase.execute('start')
     >>> request.reload()
     >>> purchase = request.purchase
     >>> purchase.party == party
