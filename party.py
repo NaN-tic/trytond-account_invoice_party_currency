@@ -17,10 +17,9 @@ class CurrencyMixin:
 
     @fields.depends('party')
     def on_change_party(self):
-        res = super(CurrencyMixin, self).on_change_party()
+        super(CurrencyMixin, self).on_change_party()
         if self.party and self.party.currency:
-            res['currency'] = self.party.currency.id
-        return res
+            self.currency = self.party.currency
 
     @classmethod
     def create(cls, vlist):
