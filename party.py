@@ -6,7 +6,7 @@ from trytond.pool import Pool, PoolMeta
 __all__ = ['Party', 'Invoice', 'Sale', 'Purchase', 'PurchaseRequest']
 
 
-class CurrencyMixin:
+class CurrencyMixin(object):
 
     @fields.depends('party')
     def on_change_party(self):
