@@ -8,6 +8,7 @@ Imports::
     >>> from dateutil.relativedelta import relativedelta
     >>> from decimal import Decimal
     >>> from proteus import config, Model, Wizard
+    >>> from trytond.tests.tools import activate_modules
     >>> from trytond.modules.currency.tests.tools import get_currency
     >>> from trytond.modules.company.tests.tools import create_company, \
     ...     get_company
@@ -17,19 +18,13 @@ Imports::
     ...     set_fiscalyear_invoice_sequences, create_payment_term
     >>> today = datetime.date.today()
 
-Create database::
+Install account_invoice_party_currency::
 
-    >>> config = config.set_trytond()
-    >>> config.pool.test = True
-
-Install account_invoice::
-
-    >>> Module = Model.get('ir.module')
-    >>> modules = Module.find(
-    ...     [('name', 'in',
-    ...         ['account_invoice_party_currency', 'stock_supply', 'sale'])])
-    >>> Module.install([m.id for m in modules], config.context)
-    >>> Wizard('ir.module.install_upgrade').execute('upgrade')
+    >>> config = activate_modules([
+    ...         'account_invoice_party_currency',
+    ...         'stock_supply',
+    ...         'sale',
+    ...         ])
 
 Create company::
 
@@ -128,13 +123,14 @@ Create purchase order point::
     >>> order_point.warehouse_location = warehouse_loc
     >>> order_point.type = 'purchase'
     >>> order_point.min_quantity = 10
-    >>> order_point.max_quantity = 15
+    >>> order_point.target_quantity = 15
     >>> order_point.save()
 
 Create purchase request and check purchase is created with party currency::
 
     >>> PurchaseRequest = Model.get('purchase.request')
-    >>> Wizard('purchase.request.create').execute('create_')
+    >>> create_pr = Wizard('stock.supply')
+    >>> create_pr.execute('create_')
     >>> request, = PurchaseRequest.find([])
     >>> request.party = party
     >>> request.save()
