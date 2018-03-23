@@ -8,7 +8,10 @@ def register():
     Pool.register(
         party.Party,
         party.Invoice,
+        module='account_invoice_party_currency', type_='model')
+    Pool.register(
         party.Sale,
+        depends=['Sale'],
         module='account_invoice_party_currency', type_='model')
     Pool.register(
         party.Purchase,
