@@ -9,6 +9,12 @@ def register():
         party.Party,
         party.Invoice,
         party.Sale,
+        module='account_invoice_party_currency', type_='model')
+    Pool.register(
         party.Purchase,
+        depends=['purchase'],
+        module='account_invoice_party_currency', type_='model')
+    Pool.register(
         party.PurchaseRequest,
+        depends=['purchase_request'],
         module='account_invoice_party_currency', type_='model')
