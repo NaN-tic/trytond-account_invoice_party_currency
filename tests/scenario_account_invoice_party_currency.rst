@@ -13,7 +13,7 @@ Imports::
     >>> from trytond.modules.company.tests.tools import create_company, \
     ...     get_company
     >>> from trytond.modules.account.tests.tools import create_fiscalyear, \
-    ...     create_chart, get_accounts, create_tax, set_tax_code
+    ...     create_chart, get_accounts, create_tax
     >>> from trytond.modules.account_invoice.tests.tools import \
     ...     set_fiscalyear_invoice_sequences, create_payment_term
     >>> today = datetime.date.today()
@@ -24,6 +24,7 @@ Install account_invoice_party_currency::
     ...         'account_invoice_party_currency',
     ...         'stock_supply',
     ...         'sale',
+    ...         'purchase',
     ...         ])
 
 Create company::
@@ -49,12 +50,8 @@ Create chart of accounts::
 
 Create tax::
 
-    >>> tax = set_tax_code(create_tax(Decimal('.10')))
+    >>> tax = create_tax(Decimal('.10'))
     >>> tax.save()
-    >>> invoice_base_code = tax.invoice_base_code
-    >>> invoice_tax_code = tax.invoice_tax_code
-    >>> credit_note_base_code = tax.credit_note_base_code
-    >>> credit_note_tax_code = tax.credit_note_tax_code
 
 Create party::
 
@@ -89,56 +86,11 @@ Create payment term::
     >>> payment_term = create_payment_term()
     >>> payment_term.save()
 
-Create invoice::
-
-    >>> Invoice = Model.get('account.invoice')
-    >>> invoice = Invoice()
-    >>> invoice.party = party
-    >>> invoice.currency == eur
-    True
-
 Create sale::
 
     >>> Sale = Model.get('sale.sale')
     >>> sale = Sale()
     >>> sale.party = party
+    >>> sale.click('quote')
     >>> sale.currency == eur
-    True
-
-Create purchase::
-
-    >>> Purchase = Model.get('purchase.purchase')
-    >>> purchase = Sale()
-    >>> purchase.party = party
-    >>> purchase.currency == eur
-    True
-
-Create purchase order point::
-
-    >>> Location = Model.get('stock.location')
-    >>> warehouse_loc, = Location.find([('code', '=', 'WH')])
-    >>> OrderPoint = Model.get('stock.order_point')
-    >>> order_point = OrderPoint()
-    >>> order_point.product = product
-    >>> order_point.warehouse_location = warehouse_loc
-    >>> order_point.type = 'purchase'
-    >>> order_point.min_quantity = 10
-    >>> order_point.target_quantity = 15
-    >>> order_point.save()
-
-Create purchase request and check purchase is created with party currency::
-
-    >>> PurchaseRequest = Model.get('purchase.request')
-    >>> create_pr = Wizard('stock.supply')
-    >>> create_pr.execute('create_')
-    >>> request, = PurchaseRequest.find([])
-    >>> request.party = party
-    >>> request.save()
-    >>> create_purchase = Wizard('purchase.request.create_purchase',
-    ...     models=[request])
-    >>> request.reload()
-    >>> purchase = request.purchase
-    >>> purchase.party == party
-    True
-    >>> purchase.currency == eur
     True
