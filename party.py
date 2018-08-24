@@ -26,29 +26,24 @@ class CurrencyMixin(object):
         return super(CurrencyMixin, cls).create(vlist)
 
 
-class Party:
-    __metaclass__ = PoolMeta
+class Party(metaclass=PoolMeta):
     __name__ = 'party.party'
     currency = fields.Many2One('currency.currency', 'Currency')
 
 
-class Invoice(CurrencyMixin):
-    __metaclass__ = PoolMeta
+class Invoice(CurrencyMixin, metaclass=PoolMeta):
     __name__ = 'account.invoice'
 
 
-class Sale(CurrencyMixin):
-    __metaclass__ = PoolMeta
+class Sale(CurrencyMixin, metaclass=PoolMeta):
     __name__ = 'sale.sale'
 
 
-class Purchase(CurrencyMixin):
-    __metaclass__ = PoolMeta
+class Purchase(CurrencyMixin, metaclass=PoolMeta):
     __name__ = 'purchase.purchase'
 
 
-class PurchaseRequest:
-    __metaclass__ = PoolMeta
+class PurchaseRequest(metaclass=PoolMeta):
     __name__ = 'purchase.request'
 
     @property
