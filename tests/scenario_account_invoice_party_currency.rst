@@ -73,8 +73,6 @@ Create product::
     >>> template.type = 'goods'
     >>> template.list_price = Decimal('40')
     >>> template.cost_price = Decimal('25')
-    >>> template.account_expense = expense
-    >>> template.account_revenue = revenue
     >>> template.purchasable = True
     >>> template.salable = True
     >>> template.save()
