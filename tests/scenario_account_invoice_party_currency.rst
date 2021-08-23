@@ -57,8 +57,12 @@ Create party::
 
     >>> Party = Model.get('party.party')
     >>> party = Party(name='Party')
-    >>> party.currency = eur
+    >>> party.second_currency = eur
     >>> party.save()
+    >>> party.currency == currency
+    True
+    >>> party.second_currency == eur
+    True
 
 Create product::
 

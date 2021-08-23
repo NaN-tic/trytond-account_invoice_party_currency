@@ -3,8 +3,8 @@
      copyright notices and license terms. -->
 <data>
     <xpath expr="/form/notebook/page[@id='accounting']" position="inside">
-        <separator name="currency" colspan="4"/>
-        <label name="currency"/>
-        <field name="currency"/>
+        <separator name="second_currency" colspan="4"/>
+        <label name="second_currency"/>
+        <field name="second_currency"/>
     </xpath>
 </data>
