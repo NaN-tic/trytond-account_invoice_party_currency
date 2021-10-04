@@ -7,6 +7,7 @@ __all__ = ['Party', 'Invoice', 'Sale', 'Purchase', 'PurchaseRequest']
 
 
 class CurrencyMixin(object):
+    __slots__ = ()
 
     @fields.depends('party')
     def on_change_party(self):
