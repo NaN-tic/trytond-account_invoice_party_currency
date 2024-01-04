@@ -19,6 +19,7 @@ class CurrencyMixin(object):
     def create(cls, vlist):
         pool = Pool()
         Party = pool.get('party.party')
+        vlist = [x.copy() for x in vlist]
         for values in vlist:
             if values.get('party') and not values.get('currency'):
                 party = Party(values.get('party'))
