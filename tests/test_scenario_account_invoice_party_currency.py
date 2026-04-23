@@ -84,5 +84,9 @@ class Test(unittest.TestCase):
         Sale = Model.get('sale.sale')
         sale = Sale()
         sale.party = party
+        sale_line = sale.lines.new()
+        sale_line.product = product
+        sale_line.quantity = 1
+        sale_line.unit_price = Decimal('40')
         sale.click('quote')
         self.assertEqual(sale.currency, eur)
